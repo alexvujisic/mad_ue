@@ -5,15 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +25,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,13 +32,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,20 +44,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.ModifierInfo
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,12 +69,9 @@ class MainActivity : ComponentActivity() {
                         topBar = {CustomTopAppBar()},
                         bottomBar = { CustomBottomAppBar()}
                     ){
-                        MovieList(movies = getMovies())
-
+                        MovieList()
                     }
-
                 }
-                //MovieList(movies = getMovies())
             }
         }
     }
@@ -102,7 +86,6 @@ fun CustomTopAppBar(){
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = Color(0xff7800dc),
             containerColor = Color(0xffa280fa)
-
         ))
 }
 
@@ -180,12 +163,6 @@ fun MovieRow(movie: Movie){
                     contentScale = ContentScale.Crop,
                     contentDescription = "movie image"
                 )
-                /*Image(
-
-                    painter = rememberImagePainter(movie.images),
-                    //painter = painterResource(id = R.drawable.movie_image),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "placeholder image")*/
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -218,16 +195,21 @@ fun MovieRow(movie: Movie){
         }
         AnimatedVisibility(visible = showDetails) {
             Column(modifier = Modifier.padding(start = 16.dp)) {
-                Text("Director: ${movie.director}")
-                Text("Released: ${movie.year}")
-                Text("Genre: ${movie.genre}")
-                Text("Actors: ${movie.actors}")
-                Text("Rating: ${movie.rating}")
-                Text("------------------------------------------------------------")
-                Text("Plot: ${movie.plot}")
+                ShowDetails(movie = movie)
             }
         }
     }
+}
+
+@Composable
+fun ShowDetails(movie: Movie){
+    Text("Director: ${movie.director}")
+    Text("Released: ${movie.year}")
+    Text("Genre: ${movie.genre}")
+    Text("Actors: ${movie.actors}")
+    Text("Rating: ${movie.rating}")
+    Text("------------------------------------------------------------")
+    Text("Plot: ${movie.plot}")
 }
 
 
