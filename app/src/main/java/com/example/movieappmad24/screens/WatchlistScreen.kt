@@ -26,38 +26,10 @@ import com.example.movieappmad24.navigation.Screen
 fun WatchlistScreen(navController: NavController) {
     Scaffold (
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Watchlist") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                )
-            )
+            SimpleTopAppBar(title = "Watchlist", false, navController)
         },
         bottomBar = {
-            val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
-            NavigationBar {
-                NavigationBarItem(
-                    label = { Text("Home") },
-                    selected = currentScreen == Screen.Home.route,
-                    onClick = { navController.navigate(Screen.Home.route) },
-                    icon = { Icon(
-                        imageVector = Icons.Filled.Home,
-                        contentDescription = "Go to home"
-                    )
-                    }
-                )
-                NavigationBarItem(
-                    label = { Text("Watchlist") },
-                    selected = currentScreen == Screen.Watchlist.route,
-                    onClick = {navController.navigate(Screen.Watchlist.route)},
-                    icon = { Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = "Go to watchlist"
-                    )
-                    }
-                )
-            }
+            SimpleBottomAppBar(navController)
         }
     ){ innerPadding ->
         MovieList(
